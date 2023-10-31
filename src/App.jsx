@@ -1,9 +1,10 @@
 import "./App.css";
+import ImageGallery from "./Components/ImageGallery/ImageGallery";
 function App() {
   return (
-    <div>
-      <h1 className="text-3xl bg-slate-700">Test</h1>
-    </div>
+    <>
+      <ImageGallery />
+    </>
   );
 }
 
