@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -84,8 +83,14 @@ function ImageGallery() {
         </div>
       )}
       <div className="grid grid-cols-6 gap-4">
-        {images.map((image) => (
-          <div key={image.id}>
+        {images.map((image, index) => (
+          <div
+            key={image.id}
+            style={{
+              gridRow: index === 0 ? "span 2" : "auto",
+              gridColumn: index === 0 ? "span 2" : "auto",
+            }}
+          >
             <input
               type="checkbox"
               checked={selectedImages.includes(image.id)}
@@ -94,7 +99,7 @@ function ImageGallery() {
             <img
               src={image.data}
               alt={`Image ${image.id}`}
-              className="w-[200px] h-[200px] border p-1"
+              className="border  rounded-md"
             />
           </div>
         ))}
