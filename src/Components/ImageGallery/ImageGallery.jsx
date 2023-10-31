@@ -1,5 +1,10 @@
+
+
+// export default ImageGallery;
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -41,6 +46,7 @@ function ImageGallery() {
   }, []);
 
   const handleImageSelect = (id) => {
+    console.log(id);
     const isSelected = selectedImages.includes(id);
     if (isSelected) {
       const updatedSelection = selectedImages.filter(
@@ -66,6 +72,19 @@ function ImageGallery() {
     setSelectedImages([]);
   };
 
+  const onDragEnd = (result) => {
+    console.log(result);
+    if (!result.destination) {
+      return;
+    }
+
+    const items = Array.from(images);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setImages(items);
+  };
+
   return (
     <div className="container mx-auto mt-4 p-4 bg-white">
       <input type="file" accept="image/*" onChange={handleFileChange} />
@@ -84,29 +103,51 @@ function ImageGallery() {
       )}
 
       <hr className="mb-3 mt-4" />
-      <div className="grid grid-cols-5 gap-4 relative">
-        {images.map((image, index) => (
-          <div
-            key={image.id}
-            style={{
-              gridRow: index === 0 ? "span 2" : "auto",
-              gridColumn: index === 0 ? "span 2" : "auto",
-            }}
-          >
-            <input
-              className="absolute mx-3 my-3"
-              type="checkbox"
-              checked={selectedImages.includes(image.id)}
-              onChange={() => handleImageSelect(image.id)}
-            />
-            <img
-              src={image.data}
-              alt={`Image ${image.id}`}
-              className="border  rounded-md"
-            />
-          </div>
-        ))}
-      </div>
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="image-gallery" direction="horizontal">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="grid grid-cols-5 gap-4 relative"
+            >
+              {images.map((image, index) => (
+                <Draggable key={image.id} draggableId={image.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{
+                        ...provided.draggableProps.style,
+                        gridRow: index === 0 ? "span 2" : "auto",
+                        gridColumn: index === 0 ? "span 2" : "auto",
+                      }}
+                      className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
+                        index === 0 ? "col-span-2 row-span-2" : ""
+                      } `}
+                    >
+                      <input
+                        className="absolute mx-3 my-3 cursor-pointer"
+                        type="checkbox"
+                        checked={selectedImages.includes(image.id)}
+                        onChange={() => handleImageSelect(image.id)}
+                      />
+                      <img
+                        src={image.data}
+                        alt={`Image ${image.id}`}
+                        className="border  rounded-md"
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 }
