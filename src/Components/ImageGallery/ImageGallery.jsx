@@ -67,7 +67,7 @@ function ImageGallery() {
   };
 
   return (
-    <div className="container mx-auto mt-4 p-4">
+    <div className="container mx-auto mt-4 p-4 bg-white">
       <input type="file" accept="image/*" onChange={handleFileChange} />
 
       {selectedImages.length > 0 && (
@@ -82,7 +82,9 @@ function ImageGallery() {
           <h4>Selected image {selectedImages.length}</h4>
         </div>
       )}
-      <div className="grid grid-cols-6 gap-4">
+
+      <hr className="mb-3 mt-4" />
+      <div className="grid grid-cols-5 gap-4 relative">
         {images.map((image, index) => (
           <div
             key={image.id}
@@ -92,6 +94,7 @@ function ImageGallery() {
             }}
           >
             <input
+              className="absolute mx-3 my-3"
               type="checkbox"
               checked={selectedImages.includes(image.id)}
               onChange={() => handleImageSelect(image.id)}
