@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { BsCardImage } from "react-icons/bs";
+import Header from "../Header/Header";
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
@@ -85,18 +86,11 @@ function ImageGallery() {
 
   return (
     <div className="container mx-auto mt-4 p-4 bg-white">
-      {selectedImages.length > 0 && (
-        <div>
-          <button
-            onClick={handleDeleteSelected}
-            className="bg-slate-400 p-3 rounded-sm cursor-pointer"
-          >
-            Delete Selected
-          </button>
-
-          <h4>Selected image {selectedImages.length}</h4>
-        </div>
-      )}
+      {/* Gallery header */}
+      <Header
+        length={selectedImages.length}
+        handleDeleteSelected={handleDeleteSelected}
+      />
 
       <hr className="mb-3 mt-4" />
 
