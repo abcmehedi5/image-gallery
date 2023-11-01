@@ -1,16 +1,14 @@
-
-
 // export default ImageGallery;
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { BsCardImage } from "react-icons/bs";
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -87,8 +85,6 @@ function ImageGallery() {
 
   return (
     <div className="container mx-auto mt-4 p-4 bg-white">
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-
       {selectedImages.length > 0 && (
         <div>
           <button
@@ -113,40 +109,85 @@ function ImageGallery() {
               className="grid grid-cols-5 gap-4 relative"
             >
               {images.map((image, index) => (
-                <Draggable key={image.id} draggableId={image.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={{
-                        ...provided.draggableProps.style,
-                        gridRow: index === 0 ? "span 2" : "auto",
-                        gridColumn: index === 0 ? "span 2" : "auto",
-                      }}
-                      className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
-                        index === 0 ? "col-span-2 row-span-2" : ""
-                      } `}
+                <>
+                  <Draggable
+                    key={image.id}
+                    draggableId={image.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          ...provided.draggableProps.style,
+                          gridRow: index === 0 ? "span 2" : "auto",
+                          gridColumn: index === 0 ? "span 2" : "auto",
+                        }}
+                        className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
+                          index === 0 ? "col-span-2 row-span-2" : ""
+                        } `}
+                      >
+                        <input
+                          className="absolute mx-3 my-3 cursor-pointer"
+                          type="checkbox"
+                          checked={selectedImages.includes(image.id)}
+                          onChange={() => handleImageSelect(image.id)}
+                        />
+                        <img
+                          src={image.data}
+                          alt={`Image ${image.id}`}
+                          className="border  rounded-md"
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                  {/* Render the input field in the last element */}
+                  {index === images.length - 1 && (
+                    <label
+                      htmlFor="file-upload"
+                      className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
                     >
+                      <div className="text-3xl mb-2">
+                        <BsCardImage />
+                      </div>
+                      <div>Add Images</div>
                       <input
-                        className="absolute mx-3 my-3 cursor-pointer"
-                        type="checkbox"
-                        checked={selectedImages.includes(image.id)}
-                        onChange={() => handleImageSelect(image.id)}
+                        type="file"
+                        accept="image/*"
+                        id="file-upload"
+                        onChange={handleFileChange}
+                        className="hidden"
                       />
-                      <img
-                        src={image.data}
-                        alt={`Image ${image.id}`}
-                        className="border  rounded-md"
-                      />
-                    </div>
+                    </label>
                   )}
-                </Draggable>
+                </>
               ))}
               {provided.placeholder}
             </div>
           )}
         </Droppable>
+
+        {/* When image array empty then show the input file displayed */}
+        {images.length === 0 && (
+          <label
+            htmlFor="file-upload"
+            className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
+          >
+            <div className="text-3xl mb-2">
+              <BsCardImage />
+            </div>
+            <div>Add Images</div>
+            <input
+              type="file"
+              accept="image/*"
+              id="file-upload"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+        )}
       </DragDropContext>
     </div>
   );
