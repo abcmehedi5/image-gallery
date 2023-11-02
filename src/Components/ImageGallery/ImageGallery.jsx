@@ -115,13 +115,15 @@ function ImageGallery() {
                         {...provided.dragHandleProps}
                         style={{
                           ...provided.draggableProps.style,
-                          gridRow: index === 0 ? "span 2" : "auto",
-                          gridColumn: index === 0 ? "span 2" : "auto",
+                          // gridRow: index === 0 ? "span 2" : "auto",
+                          // gridColumn: index === 0 ? "span 2" : "auto",
                         }}
                         onMouseEnter={() => setShowCheckBox(true)}
                         onMouseLeave={() => setShowCheckBox(false)}
                         className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
                           index === 0 ? "col-span-2 row-span-2" : ""
+                        } ${
+                          selectedImages.includes(image.id) && "opacity-40"
                         } `}
                       >
                         <input
@@ -134,12 +136,14 @@ function ImageGallery() {
                         />
 
                         {selectedImages.includes(image.id) && (
-                          <input
-                            className="absolute mx-3 my-3 cursor-pointer "
-                            type="checkbox"
-                            checked={selectedImages.includes(image.id)}
-                            onChange={() => handleImageSelect(image.id)}
-                          />
+                          <>
+                            <input
+                              className="absolute mx-3 my-3 cursor-pointer "
+                              type="checkbox"
+                              checked={selectedImages.includes(image.id)}
+                              onChange={() => handleImageSelect(image.id)}
+                            />
+                          </>
                         )}
                         <img
                           src={image.data}
