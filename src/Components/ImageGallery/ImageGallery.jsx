@@ -45,7 +45,6 @@ function ImageGallery() {
   }, []);
 
   const handleImageSelect = (id) => {
-    console.log(id);
     const isSelected = selectedImages.includes(id);
     if (isSelected) {
       const updatedSelection = selectedImages.filter(
@@ -72,7 +71,6 @@ function ImageGallery() {
   };
 
   const onDragEnd = (result) => {
-    console.log(result);
     if (!result.destination) {
       return;
     }
@@ -83,6 +81,7 @@ function ImageGallery() {
 
     setImages(items);
   };
+  const [showCheckbox, setShowCheckBox] = useState(false);
 
   return (
     <div className="container mx-auto mt-4 p-4 bg-white">
@@ -119,16 +118,29 @@ function ImageGallery() {
                           gridRow: index === 0 ? "span 2" : "auto",
                           gridColumn: index === 0 ? "span 2" : "auto",
                         }}
+                        onMouseEnter={() => setShowCheckBox(true)}
+                        onMouseLeave={() => setShowCheckBox(false)}
                         className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
                           index === 0 ? "col-span-2 row-span-2" : ""
                         } `}
                       >
                         <input
-                          className="absolute mx-3 my-3 cursor-pointer"
+                          className={`absolute mx-3 my-3 cursor-pointer ${
+                            showCheckbox ? "" : "hidden"
+                          }`}
                           type="checkbox"
                           checked={selectedImages.includes(image.id)}
                           onChange={() => handleImageSelect(image.id)}
                         />
+
+                        {selectedImages.includes(image.id) && (
+                          <input
+                            className="absolute mx-3 my-3 cursor-pointer "
+                            type="checkbox"
+                            checked={selectedImages.includes(image.id)}
+                            onChange={() => handleImageSelect(image.id)}
+                          />
+                        )}
                         <img
                           src={image.data}
                           alt={`Image ${image.id}`}
