@@ -3,7 +3,7 @@ import { BiSolidCheckSquare } from "react-icons/bi";
 
 const Header = ({ length, handleDeleteSelected }) => {
   return (
-    <div className="flex justify-between font-bold text-xl">
+    <div className="flex justify-between font-bold  text-sm md:text-xl">
       <div>
         {length <= 0 ? (
           <h1>Gallery</h1>

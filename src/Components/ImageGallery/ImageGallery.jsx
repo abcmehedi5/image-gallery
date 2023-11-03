@@ -120,7 +120,7 @@ function ImageGallery() {
                         onMouseEnter={() => setShowCheckBox(true)}
                         onMouseLeave={() => setShowCheckBox(false)}
                         className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
-                          index === 0 ? "col-span-2 row-span-2" : ""
+                          index === 0 ? "md:col-span-2 md:row-span-2" : ""
                         } ${
                           selectedImages.includes(image.id) && "opacity-40"
                         } `}
@@ -147,7 +147,7 @@ function ImageGallery() {
                         <img
                           src={image.data}
                           alt={`Image ${image.id}`}
-                          className={`rounded-md w-full h-full max-h-[225px] ${
+                          className={`rounded-md w-full h-full md:max-h-fit max-h-[225px]  ${
                             index === 0 ? "max-h-full" : ""
                           }`}
                         />
@@ -184,7 +184,7 @@ function ImageGallery() {
         {images.length === 0 && (
           <label
             htmlFor="file-upload"
-            className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
+            className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[225px] cursor-pointer"
           >
             <div className="text-3xl mb-2">
               <BsCardImage />
