@@ -95,7 +95,7 @@ function ImageGallery() {
       <hr className="mb-3 mt-4" />
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="image-gallery" direction="vertical">
+        <Droppable droppableId="image-gallery" direction="horizontal">
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}

@@ -30,7 +30,7 @@ const GalleryItem = ({
           >
             {hoveredImageIndex === index && (
               <input
-                className={`absolute mx-3 my-3 cursor-pointer `}
+                className={`absolute mx-3 my-3 cursor-pointer w-6 h-6`}
                 type="checkbox"
                 checked={selectedImages.includes(image.id)}
                 onChange={() => handleImageSelect(image.id)}
@@ -40,7 +40,7 @@ const GalleryItem = ({
             {selectedImages.includes(image.id) && (
               <>
                 <input
-                  className="absolute mx-3 my-3 cursor-pointer "
+                  className="absolute mx-3 my-3 cursor-pointer w-6 h-6  "
                   type="checkbox"
                   checked={selectedImages.includes(image.id)}
                   onChange={() => handleImageSelect(image.id)}
