@@ -8,6 +8,7 @@ import Header from "../Header/Header";
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -82,8 +83,6 @@ function ImageGallery() {
 
     setImages(items);
   };
-  const [showCheckbox, setShowCheckBox] = useState(false);
-
   return (
     <div className="container mx-auto p-10 bg-white rounded-md m-10 min-h-screen">
       {/* Gallery header */}
@@ -117,22 +116,22 @@ function ImageGallery() {
                         style={{
                           ...provided.draggableProps.style,
                         }}
-                        onMouseEnter={() => setShowCheckBox(true)}
-                        onMouseLeave={() => setShowCheckBox(false)}
+                        onMouseEnter={() => setHoveredImageIndex(index)}
+                        onMouseLeave={() => setHoveredImageIndex(null)}
                         className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
                           index === 0 ? "md:col-span-2 md:row-span-2" : ""
                         } ${
                           selectedImages.includes(image.id) && "opacity-40"
                         } `}
                       >
-                        <input
-                          className={`absolute mx-3 my-3 cursor-pointer ${
-                            showCheckbox ? "" : "hidden"
-                          }`}
-                          type="checkbox"
-                          checked={selectedImages.includes(image.id)}
-                          onChange={() => handleImageSelect(image.id)}
-                        />
+                        {hoveredImageIndex === index && (
+                          <input
+                            className={`absolute mx-3 my-3 cursor-pointer `}
+                            type="checkbox"
+                            checked={selectedImages.includes(image.id)}
+                            onChange={() => handleImageSelect(image.id)}
+                          />
+                        )}
 
                         {selectedImages.includes(image.id) && (
                           <>
