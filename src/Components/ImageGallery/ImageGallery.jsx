@@ -84,121 +84,123 @@ function ImageGallery() {
   const [showCheckbox, setShowCheckBox] = useState(false);
 
   return (
-    <div className="container mx-auto mt-4 p-4 bg-white">
-      {/* Gallery header */}
-      <Header
-        length={selectedImages.length}
-        handleDeleteSelected={handleDeleteSelected}
-      />
+    <div className="bg-[#EDF2F7] h-screen  flex justify-center items-center ">
+      <div className="container mx-auto p-10 bg-white rounded-md">
+        {/* Gallery header */}
+        <Header
+          length={selectedImages.length}
+          handleDeleteSelected={handleDeleteSelected}
+        />
 
-      <hr className="mb-3 mt-4" />
+        <hr className="mb-3 mt-4" />
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="image-gallery" direction="horizontal">
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 relative"
-            >
-              {images.map((image, index) => (
-                <>
-                  <Draggable
-                    key={image.id}
-                    draggableId={image.id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          ...provided.draggableProps.style,
-                          // gridRow: index === 0 ? "span 2" : "auto",
-                          // gridColumn: index === 0 ? "span 2" : "auto",
-                        }}
-                        onMouseEnter={() => setShowCheckBox(true)}
-                        onMouseLeave={() => setShowCheckBox(false)}
-                        className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
-                          index === 0 ? "col-span-2 row-span-2" : ""
-                        } ${
-                          selectedImages.includes(image.id) && "opacity-40"
-                        } `}
-                      >
-                        <input
-                          className={`absolute mx-3 my-3 cursor-pointer ${
-                            showCheckbox ? "" : "hidden"
-                          }`}
-                          type="checkbox"
-                          checked={selectedImages.includes(image.id)}
-                          onChange={() => handleImageSelect(image.id)}
-                        />
-
-                        {selectedImages.includes(image.id) && (
-                          <>
-                            <input
-                              className="absolute mx-3 my-3 cursor-pointer "
-                              type="checkbox"
-                              checked={selectedImages.includes(image.id)}
-                              onChange={() => handleImageSelect(image.id)}
-                            />
-                          </>
-                        )}
-                        <img
-                          src={image.data}
-                          alt={`Image ${image.id}`}
-                          className="border  rounded-md"
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                  {/* Render the input field in the last element */}
-                  {index === images.length - 1 && (
-                    <label
-                      htmlFor="file-upload"
-                      className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="image-gallery" direction="horizontal">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 relative"
+              >
+                {images.map((image, index) => (
+                  <>
+                    <Draggable
+                      key={image.id}
+                      draggableId={image.id}
+                      index={index}
                     >
-                      <div className="text-3xl mb-2">
-                        <BsCardImage />
-                      </div>
-                      <div>Add Images</div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="file-upload"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                    </label>
-                  )}
-                </>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            ...provided.draggableProps.style,
+                            // gridRow: index === 0 ? "span 2" : "auto",
+                            // gridColumn: index === 0 ? "span 2" : "auto",
+                          }}
+                          onMouseEnter={() => setShowCheckBox(true)}
+                          onMouseLeave={() => setShowCheckBox(false)}
+                          className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
+                            index === 0 ? "col-span-2 row-span-2" : ""
+                          } ${
+                            selectedImages.includes(image.id) && "opacity-40"
+                          } `}
+                        >
+                          <input
+                            className={`absolute mx-3 my-3 cursor-pointer ${
+                              showCheckbox ? "" : "hidden"
+                            }`}
+                            type="checkbox"
+                            checked={selectedImages.includes(image.id)}
+                            onChange={() => handleImageSelect(image.id)}
+                          />
 
-        {/* When image array empty then show the input file displayed */}
-        {images.length === 0 && (
-          <label
-            htmlFor="file-upload"
-            className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
-          >
-            <div className="text-3xl mb-2">
-              <BsCardImage />
-            </div>
-            <div>Add Images</div>
-            <input
-              type="file"
-              accept="image/*"
-              id="file-upload"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </label>
-        )}
-      </DragDropContext>
+                          {selectedImages.includes(image.id) && (
+                            <>
+                              <input
+                                className="absolute mx-3 my-3 cursor-pointer "
+                                type="checkbox"
+                                checked={selectedImages.includes(image.id)}
+                                onChange={() => handleImageSelect(image.id)}
+                              />
+                            </>
+                          )}
+                          <img
+                            src={image.data}
+                            alt={`Image ${image.id}`}
+                            className="border  rounded-md"
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                    {/* Render the input field in the last element */}
+                    {index === images.length - 1 && (
+                      <label
+                        htmlFor="file-upload"
+                        className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
+                      >
+                        <div className="text-3xl mb-2">
+                          <BsCardImage />
+                        </div>
+                        <div>Add Images</div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id="file-upload"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
+                  </>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+
+          {/* When image array empty then show the input file displayed */}
+          {images.length === 0 && (
+            <label
+              htmlFor="file-upload"
+              className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[235px] cursor-pointer"
+            >
+              <div className="text-3xl mb-2">
+                <BsCardImage />
+              </div>
+              <div>Add Images</div>
+              <input
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+          )}
+        </DragDropContext>
+      </div>
     </div>
   );
 }
