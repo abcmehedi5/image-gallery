@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { BsCardImage } from "react-icons/bs";
 import Header from "../Header/Header";
+import GalleryItem from "./GalleryItem";
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
@@ -94,7 +95,7 @@ function ImageGallery() {
       <hr className="mb-3 mt-4" />
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="image-gallery" direction="horizontal">
+        <Droppable droppableId="image-gallery" direction="vertical">
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
@@ -102,77 +103,16 @@ function ImageGallery() {
               className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 relative"
             >
               {images.map((image, index) => (
-                <>
-                  <Draggable
-                    key={image.id}
-                    draggableId={image.id}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={{
-                          ...provided.draggableProps.style,
-                        }}
-                        onMouseEnter={() => setHoveredImageIndex(index)}
-                        onMouseLeave={() => setHoveredImageIndex(null)}
-                        className={`border rounded-lg transition-all duration-300 hover:opacity-50 ${
-                          index === 0 ? "md:col-span-2 md:row-span-2" : ""
-                        } ${
-                          selectedImages.includes(image.id) && "opacity-40"
-                        } `}
-                      >
-                        {hoveredImageIndex === index && (
-                          <input
-                            className={`absolute mx-3 my-3 cursor-pointer `}
-                            type="checkbox"
-                            checked={selectedImages.includes(image.id)}
-                            onChange={() => handleImageSelect(image.id)}
-                          />
-                        )}
-
-                        {selectedImages.includes(image.id) && (
-                          <>
-                            <input
-                              className="absolute mx-3 my-3 cursor-pointer "
-                              type="checkbox"
-                              checked={selectedImages.includes(image.id)}
-                              onChange={() => handleImageSelect(image.id)}
-                            />
-                          </>
-                        )}
-                        <img
-                          src={image.data}
-                          alt={`Image ${image.id}`}
-                          className={`rounded-md w-full h-full md:max-h-fit max-h-[225px]  ${
-                            index === 0 ? "max-h-full" : ""
-                          }`}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                  {/* Render the input field in the last element */}
-                  {index === images.length - 1 && (
-                    <label
-                      htmlFor="file-upload"
-                      className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[225px] cursor-pointer"
-                    >
-                      <div className="text-3xl mb-2">
-                        <BsCardImage />
-                      </div>
-                      <div>Add Images</div>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="file-upload"
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                    </label>
-                  )}
-                </>
+                <GalleryItem
+                  image={image}
+                  index={index}
+                  images={images}
+                  selectedImages={selectedImages}
+                  hoveredImageIndex={hoveredImageIndex}
+                  handleFileChange={handleFileChange}
+                  setHoveredImageIndex={setHoveredImageIndex}
+                  handleImageSelect={handleImageSelect}
+                />
               ))}
               {provided.placeholder}
             </div>
@@ -181,22 +121,27 @@ function ImageGallery() {
 
         {/* When image array empty then show the input file displayed */}
         {images.length === 0 && (
-          <label
-            htmlFor="file-upload"
-            className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[225px] cursor-pointer"
-          >
-            <div className="text-3xl mb-2">
-              <BsCardImage />
-            </div>
-            <div>Add Images</div>
-            <input
-              type="file"
-              accept="image/*"
-              id="file-upload"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </label>
+          <div className="h-screen">
+            <label
+              htmlFor="file-upload"
+              className="flex flex-col items-center justify-center text-center border rounded-md p-5 w-full h-auto md:w-[236px] md:h-[225px] cursor-pointer"
+            >
+              <div className="text-3xl mb-2">
+                <BsCardImage />
+              </div>
+              <div>Add Images</div>
+              <input
+                type="file"
+                accept="image/*"
+                id="file-upload"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <h1 className="text-center flex justify-center items-center">
+                Please select image
+              </h1>
+            </label>
+          </div>
         )}
       </DragDropContext>
     </div>
