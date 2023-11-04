@@ -50,8 +50,8 @@ const GalleryItem = ({
             <img
               src={image.data}
               alt={`Image ${image.id}`}
-              className={`rounded-md w-full h-full md:max-h-fit max-h-[225px]  ${
-                index === 0 ? "max-h-full" : ""
+              className={`rounded-md w-full  max-h-[225px]  ${
+                index === 0 ? "max-h-[460px]" : ""
               }`}
             />
           </div>
