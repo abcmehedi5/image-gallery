@@ -33,31 +33,12 @@ You can interact with the live demo of this React JS image gallery by visiting: 
  * Tailwindcss
  * Add any additional libraries or frameworks used here
 
-
-# Project Structure
-
-src/
-|-- components/
-|   |-- Header/
-|   |   |-- Header.js
-|   |
-|   |-- ImageGallery/
-|   |   |-- ImageGallery.js
-|   |   |-- ImageItem.js
-|   |
-|   |-- ...
-|
-|-- App.js
-|-- ...
-
-
-
 # Contact
 If you have any questions or need assistance with the project, feel free to contact the project maintainer or team:
 
-Md Mehedi Hassan
-mail.mehedi22@gmail.com
-Resume Link: https://drive.google.com/file/d/1SZVE1L1cO94AFkEGNV7AP-GWOAGZg2OY/view?usp=sharing
+* Md Mehedi Hassan
+* mail.mehedi22@gmail.com
+* Resume Link: https://drive.google.com/file/d/1SZVE1L1cO94AFkEGNV7AP-GWOAGZg2OY/view?usp=sharing
 
 # Enjoy the Gallery!
 We hope you enjoy using our React Image Gallery with Image Upload and Drag-and-Drop. Feel free to explore and customize it to your liking. Thank you for checking out our project!
